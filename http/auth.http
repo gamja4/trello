@@ -1,0 +1,5 @@
+### signup
+GET localhost:8080/api/users/signup
+
+### test
+GET localhost:8080/api/users/test
