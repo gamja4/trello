@@ -1,0 +1,13 @@
+### 댓글 생성
+POST localhost:8080/api/boards/1/sections/1/cards/1/comments
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+ "content": "content test"
+}
+
+### 댓글 조회
+GET localhost:8080/api/boards/1/sections/1/cards/1/comments
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
