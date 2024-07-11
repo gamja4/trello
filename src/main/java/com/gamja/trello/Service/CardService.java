@@ -18,11 +18,6 @@ public class CardService {
     public CardResponseDto createCard(Long sectionId, CardRequestDto requestDto, User user) {
         Section section = findSectionById(sectionId);
 
-        if(requestDto.getTitle() == null || requestDto.getTitle().isEmpty() ||
-            requestDto.getStatus() == null || requestDto.getStatus().isEmpty()){
-            throw new IllegalArgumentException("제목과 카드 상태를 입력해주세요");
-        }
-
         Card card = new Card(requestDto, section, user);
         Card saveCard = cardRepository.save(card);
 
@@ -30,9 +25,6 @@ public class CardService {
     }
 
     public CardResponseDto updateCard(Long sectionId, Long cardId, CardRequestDto requestDto, User user) {
-        if(user == null){
-            throw new IllegalArgumentException("로그인한 후에 수정해주세요");
-        }
         Section section = findSectionById(sectionId);
         Card card = findCardById(cardId);
 
