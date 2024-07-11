@@ -1,4 +1,4 @@
-package com.gamja.trello.dto;
+package com.gamja.trello.dto.response;
 
 import com.gamja.trello.entity.Card;
 import lombok.Getter;
