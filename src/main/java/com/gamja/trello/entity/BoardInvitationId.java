@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 @Embeddable
 @EqualsAndHashCode
@@ -14,11 +15,11 @@ import java.io.Serializable;
 @Getter
 public class BoardInvitationId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
@@ -27,4 +28,5 @@ public class BoardInvitationId implements Serializable {
         this.user = user;
         this.board = board;
     }
+
 }
