@@ -24,7 +24,7 @@ public class CardService {
         Card card = new Card(requestDto, section, user);
         Card saveCard = cardRepository.save(card);
 
-        return new CardResponseDto(card);
+        return new CardResponseDto(saveCard);
     }
 
     @Transactional(readOnly = true)
@@ -53,12 +53,11 @@ public class CardService {
 
     }
 
-    public MessageResponseDto deleteCard(Long sectionId, Long cardId, User user) {
+    public void deleteCard(Long sectionId, Long cardId, User user) {
         Section section = findSectionById(sectionId);
         Card card = findCardById(cardId);
 
         cardRepository.delete(card);
-        return new MessageResponseDto("카드가 삭제되었습니다");
     }
 
     private Card findCardById(Long cardId) {
