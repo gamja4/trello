@@ -23,4 +23,12 @@ public class CardController {
         return cardService.createCard(sectionId, requestDto, userDetails.getUser());
     }
 
+    @PutMapping("/cards/{cardId}")
+    public CardResponseDto updateCard(@PathVariable Long sectionId,
+                                      @PathVariable Long cardId,
+                                      @Valid @RequestBody CardRequestDto requestDto,
+                                      @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return cardService.updateCard(sectionId, cardId, requestDto, userDetails.getUser());
+    }
+
 }
