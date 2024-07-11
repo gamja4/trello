@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
@@ -24,6 +26,15 @@ public class Card extends Timestamp{
 
     @Column(nullable = false)
     private int sort;
+
+    @Column
+    private LocalDate dueDate;
+
+    @Column(nullable = false)
+    private String status;
+
+    @Column
+    private String writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
