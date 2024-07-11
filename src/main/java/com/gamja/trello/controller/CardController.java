@@ -12,21 +12,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/boards/{boardId}/sections/{sectionId}")
+@RequestMapping("/boards/{boardId}/sections/{sectionId}/cards")
 @RequiredArgsConstructor
 public class CardController {
 
     private final CardService cardService;
 
-    @PostMapping("/cards")
+    @PostMapping
     public CardResponseDto createCard(@PathVariable Long sectionId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
         return cardService.createCard(sectionId, requestDto, userDetails.getUser());
     }
 
-    @PutMapping("/cards/{cardId}")
+    @GetMapping
+    public List<CardResponseDto> getCards(@PathVariable Long sectionId,
+                                          @RequestParam(required = false) String writer,
+                                          @RequestParam(required = false) String status){
+        return cardService.getCards(sectionId, writer, status);
+    }
+
+    @PutMapping("/{cardId}")
     public CardResponseDto updateCard(@PathVariable Long sectionId,
                                       @PathVariable Long cardId,
                                       @Valid @RequestBody CardRequestDto requestDto,
@@ -34,7 +43,7 @@ public class CardController {
         return cardService.updateCard(sectionId, cardId, requestDto, userDetails.getUser());
     }
 
-    @DeleteMapping("/cards/{cardId}")
+    @DeleteMapping("/{cardId}")
     public ResponseEntity<MessageResponseDto> deleteCard(@PathVariable Long sectionId,
                                                          @PathVariable Long cardId,
                                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
