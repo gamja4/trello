@@ -2,6 +2,7 @@ package com.gamja.trello.service;
 
 import com.gamja.trello.dto.request.CardRequestDto;
 import com.gamja.trello.dto.response.CardResponseDto;
+import com.gamja.trello.dto.response.MessageResponseDto;
 import com.gamja.trello.entity.Card;
 import com.gamja.trello.entity.Section;
 import com.gamja.trello.entity.User;
@@ -31,6 +32,14 @@ public class CardService {
         card.update(requestDto);
         return new CardResponseDto(card);
 
+    }
+
+    public MessageResponseDto deleteCard(Long sectionId, Long cardId, User user) {
+        Section section = findSectionById(sectionId);
+        Card card = findCardById(cardId);
+
+        cardRepository.delete(card);
+        return new MessageResponseDto("카드가 삭제되었습니다");
     }
 
     private Card findCardById(Long cardId) {
