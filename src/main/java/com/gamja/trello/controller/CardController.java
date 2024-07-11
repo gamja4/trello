@@ -22,10 +22,10 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping
-    public CardResponseDto createCard(@PathVariable Long sectionId,
+    public ResponseEntity<?> createCard(@PathVariable Long sectionId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return cardService.createCard(sectionId, requestDto, userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.CREATED).body(cardService.createCard(sectionId, requestDto, userDetails.getUser()));
     }
 
     @GetMapping
@@ -36,19 +36,20 @@ public class CardController {
     }
 
     @PutMapping("/{cardId}")
-    public CardResponseDto updateCard(@PathVariable Long sectionId,
+    public ResponseEntity<?> updateCard(@PathVariable Long sectionId,
                                       @PathVariable Long cardId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return cardService.updateCard(sectionId, cardId, requestDto, userDetails.getUser());
+
+        return ResponseEntity.status(HttpStatus.OK).body(cardService.updateCard(sectionId, cardId, requestDto, userDetails.getUser()));
     }
 
     @DeleteMapping("/{cardId}")
-    public ResponseEntity<MessageResponseDto> deleteCard(@PathVariable Long sectionId,
+    public ResponseEntity<?> deleteCard(@PathVariable Long sectionId,
                                                          @PathVariable Long cardId,
                                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
-        MessageResponseDto responseDto = cardService.deleteCard(sectionId, cardId, userDetails.getUser());
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+        cardService.deleteCard(sectionId, cardId, userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
