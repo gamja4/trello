@@ -16,10 +16,10 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping("/columns/{columnId}")
-    public CardResponseDto createCard(@PathVariable Long columnId,
+    public CardResponseDto createCard(@PathVariable Long sectionId,
                                       @Valid @RequestBody CardRequestDto requestDto/*,
                                       @AuthenticationPrincipal userDetailsImpl userDetails*/){
-        return cardService.createCard(columnId, requestDto/*, userDetails.getUser()*/);
+        return cardService.createCard(sectionId, requestDto/*, userDetails.getUser()*/);
     }
 
 }
