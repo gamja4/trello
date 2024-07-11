@@ -33,8 +33,22 @@ public class SectionService {
 		return new SectionResponseDto(section);
 	}
 
+	public void deleteSection(Long boardId, Long sectionId) {
+
+		//Board board = boardService.findById(boardId);
+		Section section = sectionRepository.findSectionById(sectionId);
+		//checkBoardAndSection(board, section)
+
+		sectionRepository.delete(section);
+	}
+
 	public Section findById(Long sectionId) {
 		return sectionRepository.findSectionById(sectionId);
 	}
 
+	public void checkBoardAndSection(Board board, Section section) {
+		if (!board.getId().equals(section.getBoard().getId())) {
+			throw new CustomException(ErrorCode.SECTION_NOT_FOUND);
+		}
+	}
 }

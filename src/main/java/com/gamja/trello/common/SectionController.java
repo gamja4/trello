@@ -32,4 +32,13 @@ public class SectionController {
 			.body(sectionService.createSection(boardId, requestDto));
 	}
 
+	@DeleteMapping("/boards/{boardId}/sections/{sectionId")
+	public ResponseEntity<?> deleteSection(@PathVariable Long boardId,
+		@PathVariable Long sectionId,
+		@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+		sectionService.deleteSection(boardId, sectionId);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+
 }
