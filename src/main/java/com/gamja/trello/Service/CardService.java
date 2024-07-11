@@ -26,6 +26,8 @@ public class CardService {
     }
 
     private Section findSectionById(Long sectionId) {
-        return null;
+         return null;
+//        return sectionRepository.findById(sectionId).orElse(() ->
+//                new IllegalArgumentException("해당 컬럼은 존재하지 않습니다."));
     }
 }
