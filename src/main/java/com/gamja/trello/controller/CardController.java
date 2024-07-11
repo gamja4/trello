@@ -16,13 +16,12 @@ public class CardController {
 
     private final CardService cardService;
 
-    @PostMapping("/cards/{cardId}")
+    @PostMapping("/cards")
     public CardResponseDto createCard(@PathVariable Long boardId,
                                       @PathVariable Long sectionId,
-                                      @PathVariable Long cardId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return cardService.createCard(boardId, sectionId, cardId, requestDto, userDetails.getUser());
+        return cardService.createCard(boardId, sectionId, requestDto, userDetails.getUser());
     }
 
 }
