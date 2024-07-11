@@ -1,4 +1,4 @@
-package com.gamja.trello.common;
+package com.gamja.trello.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class SectionController {
 			.body(sectionService.createSection(boardId, requestDto));
 	}
 
-	@DeleteMapping("/boards/{boardId}/sections/{sectionId")
+	@DeleteMapping("/boards/{boardId}/sections/{sectionId}")
 	public ResponseEntity<?> deleteSection(@PathVariable Long boardId,
 		@PathVariable Long sectionId,
 		@AuthenticationPrincipal UserDetailsImpl userDetails) {
