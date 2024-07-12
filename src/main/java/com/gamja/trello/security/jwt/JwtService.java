@@ -1,5 +1,7 @@
 package com.gamja.trello.security.jwt;
 
+import com.gamja.trello.common.exception.CustomException;
+import com.gamja.trello.common.exception.ErrorCode;
 import com.gamja.trello.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -22,10 +24,12 @@ public class JwtService {
     private Key key;
 
     public static String CLAIM_ROLE = "auth";
-    public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
 
-    private final long ACCESS_TOKEN_TIME = 30L * 60 * 1000;
+    @Value("${jwt.time.access}")
+    private Long ACCESS_TOKEN_TIME;
+    @Value("${jwt.time.refresh}")
+    private Long REFRESH_TOKEN_TIME;
 
     @PostConstruct
     public void init() {
@@ -33,14 +37,34 @@ public class JwtService {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    // Access Token
     public String createAccessToken(String email, User.Role role) {
+        return createToken(email, role, ACCESS_TOKEN_TIME);
+    }
+
+    // Refresh Token
+    public String createRefreshToken(String email, User.Role role) {
+        return createToken(email, role, REFRESH_TOKEN_TIME);
+    }
+
+    // Reissue Token
+    public String reissueToken(String refreshToken, User user) {
+        if(!isTokenValidate(refreshToken)) {
+            throw new CustomException(ErrorCode.TOKEN_INVALID);
+        }
+
+        return createAccessToken(user.getEmail(), user.getRole());
+    }
+
+    // JWT
+    public String createToken(String email, User.Role role, Long expirationTime) {
         Date date = new Date();
 
         return Jwts.builder()
                 .subject(email)
                 .claims()
                 .add(CLAIM_ROLE, role)
-                .expiration(new Date(date.getTime() + ACCESS_TOKEN_TIME))
+                .expiration(new Date(date.getTime() + expirationTime))
                 .issuedAt(date)
                 .and()
                 .signWith(key).compact();
@@ -74,5 +98,9 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public String substringToken(String token) {
+        return token.substring(BEARER_PREFIX.length());
     }
 }

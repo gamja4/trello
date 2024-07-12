@@ -1,7 +1,11 @@
 package com.gamja.trello.entity;
 
+import com.gamja.trello.common.exception.CustomException;
+import com.gamja.trello.common.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -25,6 +29,8 @@ public class User extends Timestamp {
     @Column(nullable = false)
     private Role role;
 
+    private LocalDateTime withdrawAt;
+
     @Builder
     public User(Long id, String email, String password, String nickname, Role role) {
         this.id = id;
@@ -41,5 +47,15 @@ public class User extends Timestamp {
         MANAGER("MANAGER");
 
         private final String roleName;
+    }
+
+    public void verifyUser() {
+        if (!isActivate()){
+            throw new CustomException(ErrorCode.USER_INACTIVITY);
+        }
+    }
+
+    private boolean isActivate() {
+        return this.withdrawAt == null;
     }
 }
