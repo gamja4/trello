@@ -16,11 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
-//    private final SectionService sectionService;
+    private final SectionService sectionService;
+
 
     public CardResponseDto createCard(Long sectionId, CardRequestDto requestDto, User user) {
-        Section section = findSectionById(sectionId);
-//        Section section = sectionService.findSectionById(sectionId);
+        Section section = sectionService.findById(sectionId);
 
         Card card = new Card(requestDto, section, user);
         Card saveCard = cardRepository.save(card);
@@ -46,8 +46,7 @@ public class CardService {
     }
 
     public CardResponseDto updateCard(Long sectionId, Long cardId, CardRequestDto requestDto, User user) {
-        Section section = findSectionById(sectionId);
-//        Section section = sectionService.findSectionById(sectionId);
+        Section section = sectionService.findById(sectionId);
         Card card = findCardById(cardId);
 
         card.update(requestDto);
@@ -56,7 +55,7 @@ public class CardService {
     }
 
     public void deleteCard(Long sectionId, Long cardId, User user) {
-        Section section = findSectionById(sectionId);
+        Section section = sectionService.findById(sectionId);
         Card card = findCardById(cardId);
 
         cardRepository.delete(card);
@@ -64,12 +63,6 @@ public class CardService {
 
     private Card findCardById(Long cardId) {
         return cardRepository.findCardById(cardId);
-    }
-
-    private Section findSectionById(Long sectionId) {
-         return null;
-//        return sectionRepository.findById(sectionId).orElse(() ->
-//                new IllegalArgumentException("해당 컬럼은 존재하지 않습니다."));
     }
 
 }
