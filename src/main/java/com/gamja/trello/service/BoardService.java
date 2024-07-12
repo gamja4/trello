@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,30 +36,22 @@ public class BoardService {
         List<Board> boards = findAllBoard();
         List<BoardResponseDto> res = new ArrayList<>();
 
-        for (Board board : boards) {
-            BoardResponseDto dto = BoardResponseDto.builder()
-                    .board(board)
-                    .build();
-            res.add(dto);
-        }
-
-        return res;
+        return boards.stream()
+                .map(board -> BoardResponseDto.builder()
+                        .board(board)
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Transactional
     public List<BoardResponseDto> getUserBoardList(User user) {
-
         List<Board> boards = findAllBoardByUser(user.getId());
-        List<BoardResponseDto> res = new ArrayList<>();
 
-        for (Board board : boards) {
-            BoardResponseDto dto = BoardResponseDto.builder()
-                    .board(board)
-                    .build();
-            res.add(dto);
-        }
-
-        return res;
+        return boards.stream()
+                .map(board -> BoardResponseDto.builder()
+                        .board(board)
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -121,22 +114,19 @@ public class BoardService {
 
 
     public List<InviteResponseDto> inviteBoard(Long boardId, List<InviteRequestDto> req, User user) {
-
         Board board = findBoard(boardId);
         validateUserRole(user, board);
 
-        List<InviteResponseDto> invitations = new ArrayList<>();
-
-        for (InviteRequestDto request : req) {
-            BoardInvitation invitation = BoardInvitation.builder()
-                    .board(board)
-                    .user(userRepository.findUserByEmail(request.getEmail()))
-                    .build();
-            invitations.add(new InviteResponseDto(invitation.getId().getUser().getEmail()));
-            boardInvitationRepository.save(invitation);
-        }
-
-        return invitations;
+        return req.stream()
+                .map(request -> {
+                    BoardInvitation invitation = BoardInvitation.builder()
+                            .board(board)
+                            .user(userRepository.findUserByEmail(request.getEmail()))
+                            .build();
+                    boardInvitationRepository.save(invitation);
+                    return new InviteResponseDto(invitation.getId().getUser().getEmail());
+                })
+                .collect(Collectors.toList());
     }
 
     private void validateUserRole (User user, Board board) {
@@ -161,15 +151,11 @@ public class BoardService {
     }
 
     private List<Board> findAllBoardByUser(Long userId) {
+        List<BoardInvitation> invitationList = boardInvitationRepository.findById_UserId(userId);
 
-       List<BoardInvitation> invitationList = boardInvitationRepository.findById_UserId(userId);
-       List<Board> res = new ArrayList<>();
-
-        for (BoardInvitation invitation : invitationList) {
-            res.add(invitation.getId().getBoard());
-        }
-
-        return res;
+        return invitationList.stream()
+                .map(invitation -> invitation.getId().getBoard())
+                .collect(Collectors.toList());
     }
 
     private BoardInvitation.BoardRole getUserBoardRole(BoardInvitationId id) {
