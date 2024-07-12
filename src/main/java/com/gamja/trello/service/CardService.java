@@ -63,9 +63,7 @@ public class CardService {
     }
 
     private Card findCardById(Long cardId) {
-//        return  cardRepository.findById(cardId).orElse(() ->
-//                new IllegalArgumentException("해당 카드는 존재하지 않습니다."));
-        return null;
+        return cardRepository.findCardById(cardId);
     }
 
     private Section findSectionById(Long sectionId) {
