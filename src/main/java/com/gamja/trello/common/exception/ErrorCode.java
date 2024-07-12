@@ -23,6 +23,9 @@ public enum ErrorCode {
     SECTION_NOT_FOUND(HttpStatus.NOT_FOUND, "섹션을 찾을 수 없습니다."),
     UNAUTHORIZED_SECTION(HttpStatus.UNAUTHORIZED, "섹션을 수정할 권한이 없습니다."),
 
+    // Card
+    CARD_NOT_FOUND(HttpStatus.NOT_FOUND, "카드를 찾을 수 없습니다."),
+
     //Comment
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."),
     UNAUTHORIZED_COMMENT(HttpStatus.UNAUTHORIZED, "댓글을 수정할 권한이 없습니다."),
