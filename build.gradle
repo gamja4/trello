@@ -42,8 +42,17 @@ dependencies {
     compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.6'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.12.6'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.6'
+
+    testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter:1.0.14")
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+test {
+    systemProperty 'spring.profiles.active', 'test'
+    useJUnitPlatform {
+        exclude("com/gamja/**/Batch**.class")
+    }
 }

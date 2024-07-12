@@ -15,7 +15,7 @@ import java.util.List;
 public class Section extends Timestamp {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
 
 	@Column(nullable = false, name = "title")

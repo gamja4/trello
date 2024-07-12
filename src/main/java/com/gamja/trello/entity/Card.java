@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Card extends Timestamp{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
     private Long id;
 
