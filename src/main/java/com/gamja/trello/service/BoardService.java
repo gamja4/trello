@@ -153,7 +153,7 @@ public class BoardService {
                 });
     }
 
-    private Board findBoard(Long id) {
+    public Board findBoard(Long id) {
 
         return boardRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.BOARD_NOT_FOUND)

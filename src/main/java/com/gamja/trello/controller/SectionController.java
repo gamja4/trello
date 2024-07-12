@@ -1,5 +1,6 @@
 package com.gamja.trello.controller;
 
+import com.gamja.trello.dto.response.SectionResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,9 +25,9 @@ public class SectionController {
 	private final SectionService sectionService;
 
 	@PostMapping("/boards/{boardId}/sections")
-	public ResponseEntity<?> createSection(@PathVariable Long boardId,
-		@RequestBody @Valid SectionRequestDto requestDto,
-		@AuthenticationPrincipal UserDetailsImpl userDetails) {
+	public ResponseEntity<SectionResponseDto> createSection(@PathVariable Long boardId,
+															@RequestBody @Valid SectionRequestDto requestDto,
+															@AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 		return ResponseEntity.status(HttpStatus.CREATED)
 			.body(sectionService.createSection(boardId, requestDto));

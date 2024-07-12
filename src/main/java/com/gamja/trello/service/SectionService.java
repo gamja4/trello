@@ -17,13 +17,13 @@ import lombok.RequiredArgsConstructor;
 public class SectionService {
 
 	private final SectionRepository sectionRepository;
-	//private final BoardService boardService;
+	private final BoardService boardService;
 
 	public SectionResponseDto createSection(Long boardId, SectionRequestDto requestDto) {
 
-		//Board board = boardService.findById(boardId);
+		Board board = boardService.findBoard(boardId);
 		Section section = Section.builder()
-			// .board(board)
+			 .board(board)
 			.title(requestDto.getTitle())
 			.sort(0)
 			.build();
@@ -35,9 +35,9 @@ public class SectionService {
 
 	public void deleteSection(Long boardId, Long sectionId) {
 
-		//Board board = boardService.findById(boardId);
+		Board board = boardService.findBoard(boardId);
 		Section section = sectionRepository.findSectionById(sectionId);
-		//checkBoardAndSection(board, section)
+		checkBoardAndSection(board, section);
 
 		sectionRepository.delete(section);
 	}

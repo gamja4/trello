@@ -3,7 +3,9 @@ package com.gamja.trello.dto.response;
 import java.time.LocalDateTime;
 
 import com.gamja.trello.entity.Section;
+import lombok.Getter;
 
+@Getter
 public class SectionResponseDto {
 	private final Long id;
 	private final String title;

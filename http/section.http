@@ -1,0 +1,17 @@
+### section 생성
+POST localhost:8080/api/boards/1/sections
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "section title"
+}
+
+> {%
+    client.global.set("sectionId", response.body.data.id)
+%}
+
+### section 삭제
+DELETE localhost:8080/api/boards/1/sections/{{sectionId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
