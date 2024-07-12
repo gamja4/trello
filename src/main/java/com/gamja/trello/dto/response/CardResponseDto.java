@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class CardResponseDto {
 
     private Long id;
+    private Long sectionId;
     private String title;
     private String content;
     private int sort;
@@ -21,6 +22,7 @@ public class CardResponseDto {
 
     public CardResponseDto(Card card){
         this.id = card.getId();
+        this.sectionId = card.getSection().getId();
         this.title = card.getTitle();
         this.content = card.getContent();
         this.sort = card.getSort();

@@ -1,16 +1,22 @@
 package com.gamja.trello.service;
 
 import com.gamja.trello.dto.request.CardRequestDto;
+import com.gamja.trello.dto.request.MoveCardRequestDto;
 import com.gamja.trello.dto.response.CardResponseDto;
+import com.gamja.trello.dto.response.MoveCardResponseDto;
 import com.gamja.trello.entity.Card;
 import com.gamja.trello.entity.Section;
 import com.gamja.trello.entity.User;
 import com.gamja.trello.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -66,4 +72,24 @@ public class CardService {
         return cardRepository.findCardById(cardId);
     }
 
+    @Transactional
+    public MoveCardResponseDto moveCard(Long sectionId, MoveCardRequestDto req, User user) {
+        // section에 대한 card들을 가져온다
+        List<Card> cards = sectionService.findById(sectionId).getCards();
+
+//        List<Long> cardIds = req.getCards().stream().map(MoveCardRequestDto.card::getId).toList();
+
+        Map<Long, Integer> reqCardMap = req.getCards().stream()
+                .collect(Collectors.toMap(MoveCardRequestDto.card::getId, MoveCardRequestDto.card::getSort));
+
+        // 해당 card와 dto card를 매핑시켜야함
+        cards.stream().forEach(card -> {
+            if (reqCardMap.containsKey(card.getId())) {
+                int sort = reqCardMap.get(card.getId());
+                card.move(sort);
+            }
+        });
+
+        return new MoveCardResponseDto(cards);
+    }
 }

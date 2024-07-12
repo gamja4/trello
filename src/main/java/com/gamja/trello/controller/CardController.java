@@ -1,7 +1,9 @@
 package com.gamja.trello.controller;
 
 import com.gamja.trello.dto.request.CardRequestDto;
+import com.gamja.trello.dto.request.MoveCardRequestDto;
 import com.gamja.trello.dto.response.CardResponseDto;
+import com.gamja.trello.dto.response.MoveCardResponseDto;
 import com.gamja.trello.security.service.UserDetailsImpl;
 import com.gamja.trello.service.CardService;
 import jakarta.validation.Valid;
@@ -45,10 +47,16 @@ public class CardController {
 
     @DeleteMapping("/{cardId}")
     public ResponseEntity<?> deleteCard(@PathVariable Long sectionId,
-                                                         @PathVariable Long cardId,
-                                                         @AuthenticationPrincipal UserDetailsImpl userDetails){
+                                        @PathVariable Long cardId,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails){
         cardService.deleteCard(sectionId, cardId, userDetails.getUser());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PutMapping
+    public ResponseEntity<MoveCardResponseDto> moveCard(@PathVariable("sectionId") Long sectionId,
+                                                        @RequestBody MoveCardRequestDto req,
+                                                        @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return ResponseEntity.ok(cardService.moveCard(sectionId, req, userDetails.getUser()));
+    }
 }

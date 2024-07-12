@@ -88,4 +88,8 @@ public class Card extends Timestamp{
         this.dueDate = requestDto.getDueDate();
         this.modifiedAt= LocalDateTime.now();
     }
+
+    public void move(int sort) {
+        this.sort = sort;
+    }
 }

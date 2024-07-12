@@ -2,11 +2,9 @@ package com.gamja.trello.dto.response;
 
 import com.gamja.trello.entity.Board;
 import com.gamja.trello.entity.Section;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
