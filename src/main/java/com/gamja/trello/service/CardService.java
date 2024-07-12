@@ -45,6 +45,7 @@ public class CardService {
         return cards.stream().map(CardResponseDto::new).toList();
     }
 
+    @Transactional
     public CardResponseDto updateCard(Long sectionId, Long cardId, CardRequestDto requestDto, User user) {
         Section section = sectionService.findById(sectionId);
         Card card = findCardById(cardId);
