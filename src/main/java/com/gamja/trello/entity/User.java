@@ -6,6 +6,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -30,6 +34,12 @@ public class User extends Timestamp {
     private Role role;
 
     private LocalDateTime withdrawAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BoardInvitation> boardInvitations = new HashSet<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RefreshToken token;
 
     @Builder
     public User(Long id, String email, String password, String nickname, Role role) {

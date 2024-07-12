@@ -18,6 +18,7 @@ public enum ErrorCode {
     //Board
     BOARD_NOT_FOUND(HttpStatus.NOT_FOUND, "보드를 찾을 수 없습니다."),
     UNAUTHORIZED_BOARD(HttpStatus.UNAUTHORIZED, "보드를 수정할 권한이 없습니다."),
+    USER_ALREADY_INVITED(HttpStatus.BAD_REQUEST, "이미 추가된 사용자 입니다."),
 
     //Section
     SECTION_NOT_FOUND(HttpStatus.NOT_FOUND, "섹션을 찾을 수 없습니다."),
