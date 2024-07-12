@@ -2,7 +2,6 @@ package com.gamja.trello.service;
 
 import com.gamja.trello.dto.request.CardRequestDto;
 import com.gamja.trello.dto.response.CardResponseDto;
-import com.gamja.trello.dto.response.MessageResponseDto;
 import com.gamja.trello.entity.Card;
 import com.gamja.trello.entity.Section;
 import com.gamja.trello.entity.User;
@@ -17,9 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
+//    private final SectionService sectionService;
 
     public CardResponseDto createCard(Long sectionId, CardRequestDto requestDto, User user) {
         Section section = findSectionById(sectionId);
+//        Section section = sectionService.findSectionById(sectionId);
 
         Card card = new Card(requestDto, section, user);
         Card saveCard = cardRepository.save(card);
@@ -46,6 +47,7 @@ public class CardService {
 
     public CardResponseDto updateCard(Long sectionId, Long cardId, CardRequestDto requestDto, User user) {
         Section section = findSectionById(sectionId);
+//        Section section = sectionService.findSectionById(sectionId);
         Card card = findCardById(cardId);
 
         card.update(requestDto);
