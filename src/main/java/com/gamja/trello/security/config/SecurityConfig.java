@@ -18,6 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
@@ -47,6 +52,8 @@ public class SecurityConfig {
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
 
+        http.cors((cors) -> cors.configurationSource(corsConfigurationSource()));    //cors 필터 등록
+
         http.sessionManagement(sessionManagement -> sessionManagement
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
@@ -65,5 +72,24 @@ public class SecurityConfig {
 
         http.addFilterAt(jwtAuthenticationFilter(jwtService, userDetailsService), BasicAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);   //내 서버가 응답할 때 json을 자바스크립트에서 처리할 수 있게 할지를 설정
+        config.addAllowedOriginPattern("*");
+        config.setAllowedOriginPatterns(List.of("http://localhost:5173"));
+        config.addAllowedHeader("*");   // 모든 header에 응답 허용
+//        config.addAllowedMethod("*");
+        config.addAllowedMethod(HttpMethod.GET.name());
+        config.addAllowedMethod(HttpMethod.POST.name());
+        config.addAllowedMethod(HttpMethod.PUT.name());
+        config.addAllowedMethod(HttpMethod.DELETE.name());
+        config.addAllowedMethod(HttpMethod.OPTIONS.name());
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 }
