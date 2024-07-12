@@ -1,5 +1,7 @@
 package com.gamja.trello.service;
 
+import com.gamja.trello.dto.request.MoveSectionRequestDto;
+import com.gamja.trello.dto.response.MoveSectionResponseDto;
 import org.springframework.stereotype.Service;
 
 import com.gamja.trello.common.exception.CustomException;
@@ -11,6 +13,11 @@ import com.gamja.trello.entity.Section;
 import com.gamja.trello.repository.SectionRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -40,6 +47,24 @@ public class SectionService {
 		checkBoardAndSection(board, section);
 
 		sectionRepository.delete(section);
+	}
+
+	@Transactional
+	public MoveSectionResponseDto moveSection(Long boardId, MoveSectionRequestDto requestDto) {
+		List<Section> sections = boardService.findBoard(boardId).getSections();
+
+		Map<Long, Integer> reqSectionMap = requestDto.getSections().stream()
+				.collect(Collectors.toMap(MoveSectionRequestDto.section::getId, MoveSectionRequestDto.section::getSort));
+		
+		sections.stream().forEach(section -> {
+			if(reqSectionMap.containsKey(section.getId())) {
+				int sort = reqSectionMap.get(section.getId());
+				section.move(sort);
+			}
+		});
+
+		return new MoveSectionResponseDto(sections);
+
 	}
 
 	public Section findById(Long sectionId) {

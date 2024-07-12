@@ -42,4 +42,8 @@ public class Section extends Timestamp {
 		this.sort = sort;
 		this.board = board;
 	}
+
+	public void move(int sort){
+		this.sort = sort;
+	}
 }
