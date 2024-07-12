@@ -116,12 +116,14 @@ public class BoardService {
     public List<InviteResponseDto> inviteBoard(Long boardId, List<InviteRequestDto> req, User user) {
         Board board = findBoard(boardId);
         validateUserRole(user, board);
+        validateUserExistBoard(req, board);
 
         return req.stream()
                 .map(request -> {
                     BoardInvitation invitation = BoardInvitation.builder()
                             .board(board)
                             .user(userRepository.findUserByEmail(request.getEmail()))
+                            .role(request.getRole())
                             .build();
                     boardInvitationRepository.save(invitation);
                     return new InviteResponseDto(invitation.getId().getUser().getEmail());
@@ -134,9 +136,21 @@ public class BoardService {
         if(!user.getRole().equals(User.Role.MANAGER)) {
             BoardInvitationId id = getInvId(user, board);
             if(!isExistUserBoard(id) || !getUserBoardRole(id).equals(BoardInvitation.BoardRole.OWNER)) {
-                throw  new CustomException(ErrorCode.UNAUTHORIZED_BOARD);
+                throw new CustomException(ErrorCode.UNAUTHORIZED_BOARD);
             }
         }
+    }
+
+    private void validateUserExistBoard(List<InviteRequestDto> req, Board board) {
+        List<User> users = findAllUserByBoard(board.getId());
+
+        req.stream()
+                .map(InviteRequestDto::getEmail)
+                .filter(email -> users.stream().anyMatch(user -> user.getEmail().equals(email)))
+                .findAny()
+                .ifPresent(email -> {
+                    throw new CustomException(ErrorCode.USER_ALREADY_INVITED);
+                });
     }
 
     private Board findBoard(Long id) {
@@ -155,6 +169,14 @@ public class BoardService {
 
         return invitationList.stream()
                 .map(invitation -> invitation.getId().getBoard())
+                .collect(Collectors.toList());
+    }
+
+    private List<User> findAllUserByBoard(Long boardId) {
+        List<BoardInvitation> invitationList = boardInvitationRepository.findById_BoardId(boardId);
+
+        return invitationList.stream()
+                .map(invitation -> invitation.getId().getUser())
                 .collect(Collectors.toList());
     }
 

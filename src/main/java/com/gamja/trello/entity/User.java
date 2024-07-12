@@ -38,6 +38,9 @@ public class User extends Timestamp {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BoardInvitation> boardInvitations = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private RefreshToken token;
+
     @Builder
     public User(Long id, String email, String password, String nickname, Role role) {
         this.id = id;
