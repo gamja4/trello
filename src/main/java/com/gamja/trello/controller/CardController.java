@@ -2,7 +2,6 @@ package com.gamja.trello.controller;
 
 import com.gamja.trello.dto.request.CardRequestDto;
 import com.gamja.trello.dto.response.CardResponseDto;
-import com.gamja.trello.dto.response.MessageResponseDto;
 import com.gamja.trello.security.service.UserDetailsImpl;
 import com.gamja.trello.service.CardService;
 import jakarta.validation.Valid;
