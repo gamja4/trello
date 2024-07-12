@@ -62,7 +62,7 @@ public class CardService {
         cardRepository.delete(card);
     }
 
-    private Card findCardById(Long cardId) {
+    public Card findCardById(Long cardId) {
         return cardRepository.findCardById(cardId);
     }
 

@@ -14,15 +14,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class CommentService {
+    private final CardService cardService;
     private final CommentRepository commentRepository;
 
     public CommentResponseDto createComment(Long cardId, CommentRequestDto req, User user) {
-        // TODO 존재하는 카드인지 확인
+        Card card = cardService.findCardById(cardId);
         Comment comment = Comment.builder()
                 .content(req.getContent())
-                .card(Card.builder()
-                        .id(cardId)
-                        .build())
+                .card(card)
                 .user(user)
                 .build();
 
