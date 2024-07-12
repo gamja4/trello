@@ -16,17 +16,17 @@ import java.util.UUID;
 public class BatchRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public void boardBatchInsert() {
-
+    public void boardBatchInsert(int startId) {
+        System.out.println(startId + "번째 부터 insert를 시작합니다.");
+        int finalStartId = startId++;
         int size = 100000;
-
         jdbcTemplate.batchUpdate(
                 "insert into board(id, title)" +
                         "values(?,?)",
         new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setLong(1, i + 239996 + 1);
+                ps.setLong(1, i + finalStartId);
                 ps.setString(2, "title1");
             }
 
@@ -36,5 +36,7 @@ public class BatchRepository {
             }
         }
         );
+
+        System.out.println(startId + "번째 부터 insert가 완료되었습니다.");
     }
 }
