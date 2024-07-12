@@ -8,10 +8,12 @@ import lombok.Getter;
 @Getter
 public class BoardResponseDto {
 
+    private final Long id;
     private final String title;
 
     @Builder
     public BoardResponseDto(Board board) {
+        this.id = board.getId();
         this.title = board.getTitle();
     }
 
