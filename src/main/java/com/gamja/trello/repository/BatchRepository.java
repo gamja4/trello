@@ -18,7 +18,6 @@ public class BatchRepository {
 
     public void boardBatchInsert(int startId) {
         System.out.println(startId + "번째 부터 insert를 시작합니다.");
-        int finalStartId = startId++;
         int size = 100000;
         jdbcTemplate.batchUpdate(
                 "insert into board(id, title)" +
@@ -26,7 +25,7 @@ public class BatchRepository {
         new BatchPreparedStatementSetter() {
             @Override
             public void setValues(PreparedStatement ps, int i) throws SQLException {
-                ps.setLong(1, i + finalStartId);
+                ps.setLong(1, i + startId);
                 ps.setString(2, "title1");
             }
 
@@ -35,6 +34,30 @@ public class BatchRepository {
                 return size;
             }
         }
+        );
+
+        System.out.println(startId + "번째 부터 insert가 완료되었습니다.");
+    }
+
+    public void sectionBatchInsert(int startId, int size) {
+        System.out.println(startId + "번째 부터 insert를 시작합니다.");
+        jdbcTemplate.batchUpdate(
+                "insert into section(id, title, sort, board_id)" +
+                        "values(?, ?, ?, ?)",
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setLong(1, i + startId);
+                        ps.setString(2, "title1");
+                        ps.setInt(3, 0);
+                        ps.setLong(4, 1L);
+                    }
+
+                    @Override
+                    public int getBatchSize() {
+                        return size;
+                    }
+                }
         );
 
         System.out.println(startId + "번째 부터 insert가 완료되었습니다.");
