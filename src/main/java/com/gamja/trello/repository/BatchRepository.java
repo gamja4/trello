@@ -62,4 +62,33 @@ public class BatchRepository {
 
         System.out.println(startId + "번째 부터 insert가 완료되었습니다.");
     }
+
+    public void cardBatchInsert(int startId, int size) {
+        System.out.println(startId + "번째 부터 insert를 시작합니다.");
+        jdbcTemplate.batchUpdate(
+                "insert into card(id, content, title, sort, status, writer, section_id, user_id, due_date)" +
+                        "values(?, ?, ?, ?, ? ,? ,?, ? ,?)",
+                new BatchPreparedStatementSetter() {
+                    @Override
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        ps.setLong(1, i + startId);
+                        ps.setString(2, "content" + startId + i);
+                        ps.setString(3, "title1" + + startId + i);
+                        ps.setInt(4, 0);
+                        ps.setInt(5, 0);
+                        ps.setString(6, "test1");
+                        ps.setLong(7, 1);
+                        ps.setLong(8, 1);
+                        ps.setString(9, "2024-07-13");
+                    }
+
+                    @Override
+                    public int getBatchSize() {
+                        return size;
+                    }
+                }
+        );
+
+        System.out.println(startId + "번째 부터 insert가 완료되었습니다.");
+    }
 }

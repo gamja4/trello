@@ -79,4 +79,35 @@ class BatchRepositoryTest {
                 .then()
                 .block();
     }
+
+    @DisplayName("card 더미 데이터 생성 > Flux를 활용한 병렬 처리")
+    @Rollback(value = false)
+    @Test
+    void batchInsert4() throws InterruptedException {
+        for (int i = 0; i < 10; i++) {
+            Query curCount = entityManager.createNativeQuery("select count(*) from card;");
+            Long result = ((Number) curCount.getSingleResult()).longValue();
+
+            System.out.println("현재 데이터 삽입 갯수: " + result);
+
+            curCount = entityManager.createNativeQuery("select max(id) from card;");
+            int tableId = ((Number) curCount.getSingleResult()).intValue();
+
+            System.out.println("현재 id: " + tableId);
+
+            int count = 10; // jdbc 기본 커넥션이 10
+            int size = 1000;
+
+            Flux.range(0, count)
+                    .parallel()
+                    .runOn(Schedulers.parallel())
+                    .doOnNext(
+                            data -> batchRepository.cardBatchInsert(
+                                    tableId + (data * size) + 1,
+                                    size)
+                    )
+                    .then()
+                    .block();
+        }
+    }
 }
