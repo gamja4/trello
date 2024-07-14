@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "title": "test title 1"
+  "title": "test title 2"
 }
 
 ### getBoardList

@@ -31,13 +31,11 @@ public class Card extends Timestamp{
     @Column(nullable = false)
     private int sort;
 
-    @Column(nullable = false)
     private LocalDate dueDate;
 
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false)
     private String writer;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -16,29 +16,29 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/boards/{boardId}/sections/{sectionId}/cards")
+@RequestMapping("/api/boards/{boardId}/sections/{sectionId}/cards")
 @RequiredArgsConstructor
 public class CardController {
 
     private final CardService cardService;
 
     @PostMapping
-    public ResponseEntity<?> createCard(@PathVariable Long sectionId,
+    public ResponseEntity<?> createCard(@PathVariable("sectionId") Long sectionId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseEntity.status(HttpStatus.CREATED).body(cardService.createCard(sectionId, requestDto, userDetails.getUser()));
     }
 
     @GetMapping
-    public List<CardResponseDto> getCards(@PathVariable Long sectionId,
+    public List<CardResponseDto> getCards(@PathVariable("sectionId") Long sectionId,
                                           @RequestParam(required = false) String writer,
                                           @RequestParam(required = false) String status){
         return cardService.getCards(sectionId, writer, status);
     }
 
     @PutMapping("/{cardId}")
-    public ResponseEntity<?> updateCard(@PathVariable Long sectionId,
-                                      @PathVariable Long cardId,
+    public ResponseEntity<?> updateCard(@PathVariable("sectionId") Long sectionId,
+                                      @PathVariable("cardId") Long cardId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
 
@@ -46,8 +46,8 @@ public class CardController {
     }
 
     @DeleteMapping("/{cardId}")
-    public ResponseEntity<?> deleteCard(@PathVariable Long sectionId,
-                                        @PathVariable Long cardId,
+    public ResponseEntity<?> deleteCard(@PathVariable("sectionId") Long sectionId,
+                                        @PathVariable("cardId") Long cardId,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails){
         cardService.deleteCard(sectionId, cardId, userDetails.getUser());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
