@@ -23,7 +23,7 @@ public class CardController {
     private final CardService cardService;
 
     @PostMapping
-    public ResponseEntity<?> createCard(@PathVariable("sectionId") Long sectionId,
+    public ResponseEntity<CardResponseDto> createCard(@PathVariable("sectionId") Long sectionId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseEntity.status(HttpStatus.CREATED).body(cardService.createCard(sectionId, requestDto, userDetails.getUser()));
@@ -37,7 +37,7 @@ public class CardController {
     }
 
     @PutMapping("/{cardId}")
-    public ResponseEntity<?> updateCard(@PathVariable("sectionId") Long sectionId,
+    public ResponseEntity<CardResponseDto> updateCard(@PathVariable("sectionId") Long sectionId,
                                       @PathVariable("cardId") Long cardId,
                                       @Valid @RequestBody CardRequestDto requestDto,
                                       @AuthenticationPrincipal UserDetailsImpl userDetails){
