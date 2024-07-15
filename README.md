@@ -233,6 +233,10 @@
   
 </details>
 
+# 📱 와이어 프레임
+<img width="765" alt="image" src="https://github.com/user-attachments/assets/6e21a8cf-7874-4516-aa37-386e6f0f9c50">
+
+
 # 📑 API 명세서
 
 
