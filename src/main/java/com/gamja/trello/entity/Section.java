@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -30,7 +32,8 @@ public class Section extends Timestamp {
 
 	@OrderBy("sort asc")
 	@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Card> cards = new ArrayList<>();
+	private Set<Card> cards = new HashSet<>();
+//	private List<Card> cards = new ArrayList<>();
 
 	public void addCardList(Card card) {
 		this.cards.add(card);

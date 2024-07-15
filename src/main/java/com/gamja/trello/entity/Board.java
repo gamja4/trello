@@ -25,7 +25,8 @@ public class Board {
 
     @OrderBy("sort asc")
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Section> sections = new ArrayList<>();
+//    private List<Section> sections = new ArrayList<>();
+    private Set<Section> sections = new HashSet<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BoardInvitation> boardInvitations = new HashSet<>();

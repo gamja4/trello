@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -51,7 +52,7 @@ public class SectionService {
 
 	@Transactional
 	public MoveSectionResponseDto moveSection(Long boardId, MoveSectionRequestDto requestDto) {
-		List<Section> sections = boardService.findBoard(boardId).getSections();
+		Set<Section> sections = boardService.findBoard(boardId).getSections();
 
 		Map<Long, Integer> reqSectionMap = requestDto.getSections().stream()
 				.collect(Collectors.toMap(MoveSectionRequestDto.section::getId, MoveSectionRequestDto.section::getSort));

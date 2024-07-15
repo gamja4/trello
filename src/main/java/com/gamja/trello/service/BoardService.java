@@ -57,7 +57,13 @@ public class BoardService {
     @Transactional
     public BoardDetailResponseDto getBoard(Long boardId) {
 
+        int size = 100;
+//        Pageable pageable = PageRequest.of(0, size);
         Board board = findBoard(boardId);
+
+//        Board board = boardRepository.findBoardAllById(boardId, pageable).orElseThrow(
+//                () -> new CustomException(ErrorCode.BOARD_NOT_FOUND)
+//        );
 
         return BoardDetailResponseDto.builder()
                 .board(board)
@@ -154,6 +160,10 @@ public class BoardService {
     }
 
     public Board findBoard(Long id) {
+
+//        return boardRepository.findBoardAllById(id).orElseThrow(
+//                () -> new CustomException(ErrorCode.BOARD_NOT_FOUND)
+//        );
 
         return boardRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.BOARD_NOT_FOUND)
