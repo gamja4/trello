@@ -259,6 +259,7 @@
 
 
 # 📈 ERD 다이어그램
+<img width="464" alt="image" src="https://github.com/user-attachments/assets/ab103a05-bdfe-49ea-9629-84acaab4f7fd">
 
 
 # 🔊 트러블 슈팅
