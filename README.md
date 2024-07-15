@@ -238,6 +238,24 @@
 
 
 # 📑 API 명세서
+- 사용자 기능
+<img width="914" alt="image" src="https://github.com/user-attachments/assets/09caabf8-0ef7-4506-ad17-883a85aa693b">
+
+- 보드 관리 기능
+<img width="690" alt="image" src="https://github.com/user-attachments/assets/dcdf684c-59ba-4e73-afee-f667625bcfcc">
+<img width="791" alt="image" src="https://github.com/user-attachments/assets/de178f90-c184-402a-ba23-c93e25b7e338">
+
+
+- 컬럼 관리 기능
+<img width="782" alt="image" src="https://github.com/user-attachments/assets/dc8244cb-3b7f-4c8f-b012-9b5844232d0e">
+
+- 카드 관리 기능
+<img width="793" alt="image" src="https://github.com/user-attachments/assets/3d1135fa-7e67-49ee-9359-6b7e933e214b">
+<img width="796" alt="image" src="https://github.com/user-attachments/assets/057f14ff-5494-49b3-98a4-1db3c97cd147">
+
+- 카드 상세 기능
+<img width="790" alt="image" src="https://github.com/user-attachments/assets/b88af9e8-f41c-428b-b134-d99fbaa575d4">
+
 
 
 # 📈 ERD 다이어그램
