@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -31,13 +32,11 @@ public class Card extends Timestamp{
     @Column(nullable = false)
     private int sort;
 
-    @Column(nullable = false)
     private LocalDate dueDate;
 
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false)
     private String writer;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,17 +46,6 @@ public class Card extends Timestamp{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
     private Section section;
-
-    @CreatedDate
-    @Column(updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @LastModifiedDate
-    @Column(updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime modifiedAt = LocalDateTime.now();
-
 
     public Card (CardRequestDto requestDto, Section section, User user){
         this.title = requestDto.getTitle();
@@ -86,10 +74,14 @@ public class Card extends Timestamp{
         this.writer = requestDto.getWriter();
         this.status = requestDto.getStatus();
         this.dueDate = requestDto.getDueDate();
-        this.modifiedAt= LocalDateTime.now();
     }
 
-    public void move(int sort) {
+    public void move(int sort, Long sectionId) {
+        if (!Objects.equals(sectionId, this.section.getId())) {
+            this.section = Section.builder()
+                    .id(sectionId)
+                    .build();
+        }
         this.sort = sort;
     }
 }

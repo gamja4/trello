@@ -22,4 +22,6 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 
     List<Card> findBySectionId(Long sectionId);
 
+    List<Card> findByIdIn(List<Long> id);
+
 }

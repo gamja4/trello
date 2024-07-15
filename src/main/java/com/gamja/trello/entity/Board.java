@@ -23,6 +23,7 @@ public class Board {
     @Column(unique = true, nullable = false, name = "title")
     private String title;
 
+    @OrderBy("sort asc")
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
 

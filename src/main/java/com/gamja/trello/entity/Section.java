@@ -28,6 +28,7 @@ public class Section extends Timestamp {
 	@JoinColumn(name = "boardId", nullable = false)
 	private Board board;
 
+	@OrderBy("sort asc")
 	@OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Card> cards = new ArrayList<>();
 

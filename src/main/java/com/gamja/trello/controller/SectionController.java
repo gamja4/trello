@@ -31,8 +31,8 @@ public class SectionController {
 	}
 
 	@DeleteMapping("/boards/{boardId}/sections/{sectionId}")
-	public ResponseEntity<?> deleteSection(@PathVariable Long boardId,
-		@PathVariable Long sectionId,
+	public ResponseEntity<?> deleteSection(@PathVariable("boardId") Long boardId,
+		@PathVariable("sectionId") Long sectionId,
 		@AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 		sectionService.deleteSection(boardId, sectionId);

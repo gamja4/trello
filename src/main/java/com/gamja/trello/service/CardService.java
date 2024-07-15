@@ -1,5 +1,7 @@
 package com.gamja.trello.service;
 
+import com.gamja.trello.common.exception.CustomException;
+import com.gamja.trello.common.exception.ErrorCode;
 import com.gamja.trello.dto.request.CardRequestDto;
 import com.gamja.trello.dto.request.MoveCardRequestDto;
 import com.gamja.trello.dto.response.CardResponseDto;
@@ -75,18 +77,23 @@ public class CardService {
     @Transactional
     public MoveCardResponseDto moveCard(Long sectionId, MoveCardRequestDto req, User user) {
         // section에 대한 card들을 가져온다
-        List<Card> cards = sectionService.findById(sectionId).getCards();
+//        List<Card> cards = sectionService.findById(sectionId).getCards();
 
-//        List<Long> cardIds = req.getCards().stream().map(MoveCardRequestDto.card::getId).toList();
+        // section에 대한 card들이 아닌, req의 id card들을 가져온다.
+        List<Long> cardIds = req.getCards().stream().map(MoveCardRequestDto.card::getId).toList();
+
+        List<Card> cards = cardRepository.findByIdIn(cardIds);
 
         Map<Long, Integer> reqCardMap = req.getCards().stream()
                 .collect(Collectors.toMap(MoveCardRequestDto.card::getId, MoveCardRequestDto.card::getSort));
 
         // 해당 card와 dto card를 매핑시켜야함
-        cards.stream().forEach(card -> {
+        cards.forEach(card -> {
             if (reqCardMap.containsKey(card.getId())) {
                 int sort = reqCardMap.get(card.getId());
-                card.move(sort);
+                card.move(sort, sectionId);
+            } else {
+                throw new CustomException(ErrorCode.FAIL);
             }
         });
 

@@ -16,6 +16,7 @@ public class ControllerAspect {
     @Around("execution(* com.gamja.trello.controller.*.*(..))")
     public Object response(ProceedingJoinPoint joinPoint) throws Throwable {
         Object res = joinPoint.proceed();
+        log.info( joinPoint.getSignature().getName()+ "() controller 실행 완료");
         if (res instanceof ResponseEntity response) {
              return CommonResponse.builder()
                     .status(response.getStatusCode().value())
