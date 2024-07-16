@@ -238,6 +238,12 @@
 
 
 # 📑 API 명세서
+
+<details>
+<summary>
+API 명세서
+</summary>
+
 - 사용자 기능
 <img width="914" alt="image" src="https://github.com/user-attachments/assets/09caabf8-0ef7-4506-ad17-883a85aa693b">
 
@@ -255,7 +261,7 @@
 
 - 카드 상세 기능
 <img width="790" alt="image" src="https://github.com/user-attachments/assets/b88af9e8-f41c-428b-b134-d99fbaa575d4">
-
+</details>
 
 
 # 📈 ERD 다이어그램
@@ -263,18 +269,54 @@
 
 
 # 🔊 트러블 슈팅
-
-# 📓 회고
-• 좋았던 점 
 <details>
 <summary>
+😵‍💫 쿼리 최적화를 위해 더미 데이터 삽입 시 성능 이슈 😱
+</summary>
 
+- 문제
+  - Bulk Insert를 사용하여 10만건 생성 시 12 분이 소요
+
+- 해결 방법
+  - 스레드를 이용하여 병렬 처리
+
+=> 10만건 데이터를 생성하는데 12분이 소요 됐던 문제가 1분 47초 만에 완료 🎉
+</details>
+
+<details>
+<summary>
+🤯 쿼리 최적화를 위한 노력 😢
+</summary>
+
+- 해결을 위한 노력 & 문제
+  - fetch join 사용
+    - MultipleBagFetchException 의 cannot simultaneously fetch multiple bags 에러발생
+    - 해당 에러를 해결하기위해 Set으로 변경해주었으나 결국 근본적인 문제인 1:N 페이징 문제 해결 불가
+  - queryDSL을 사용한 fetch join 작성
+  - QueryDSL을 이용하여 fetch join 및 작성 및 페이징 시도
+
+- 해결 방법
+  - 쿼리 분리
+  => fetch 조인으로 해결이 불가능하므로, 3개의 쿼리로 분리하여 조회 🎆
+</details>
+
+
+# 📓 회고
+
+<details>
+• 좋았던 점 🎶
+<summary>
+
+- 어려운 부분은 공통 구현으로 같이 코딩을 하면서 시간을 절약할 수 있었던 것 같다.
+- 공통 구현은 code with me로 같이 작성을 했는데 작성을 하면서 마이크를 켜고 대화를 많이 하다보니 모르거나 잘 모르는 부분이 있거나 이해가 잘 되지 않는 부분이 있으면 바로바로 질문을 할 수 있어서 좋았다.
+- 질문을 하면 답변을 바로바로 해주시고 pr을 올리면 직접 팀장님이 피드백을 해주신 부분이 좋았다.
 </summary>
    
 </details>
 
-• 아쉬운 점
 <details>
+• 아쉬운 점 🩹
 <summary>
+- 시간이 넉넉하지 않아서 빨리빨리 하다보니 놓친 부분도 있어 그런 부분에서 살짝 아쉬움이 남는다.
 </summary>
 </details>
