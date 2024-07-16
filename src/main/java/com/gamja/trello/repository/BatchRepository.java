@@ -77,7 +77,7 @@ public class BatchRepository {
                         ps.setInt(4, 0);
                         ps.setInt(5, 0);
                         ps.setString(6, "test1");
-                        ps.setLong(7, 1);
+                        ps.setLong(7, i+1);   // section_id
                         ps.setLong(8, 1);
                         ps.setString(9, "2024-07-13");
                     }
