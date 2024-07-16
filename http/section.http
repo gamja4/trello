@@ -1,0 +1,43 @@
+### section 생성
+POST localhost:8080/api/boards/1/sections
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "section title"
+}
+
+> {%
+    client.global.set("sectionId", response.body.data.id)
+%}
+
+### section 삭제
+DELETE localhost:8080/api/boards/1/sections/{{sectionId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### section 순서 이동
+PUT localhost:8080/api/boards/1/sections
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "sections": [
+    {
+      "id": 1,
+      "sort": 1
+    },{
+      "id": 2,
+      "sort": 2
+    },{
+      "id": 5,
+      "sort": 4
+    },{
+      "id": 6,
+      "sort": 5
+    },{
+      "id": 7,
+      "sort": 3
+    }
+  ]
+}

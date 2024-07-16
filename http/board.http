@@ -1,0 +1,37 @@
+### postBoard
+POST http://localhost:8080/boards
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "test title 2"
+}
+
+### getBoardList
+GET http://localhost:8080/boards
+Authorization: Bearer {{accessToken}}
+
+### getBoard
+GET http://localhost:8080/boards/1
+Authorization: Bearer {{accessToken}}
+
+### putBoard
+PUT http://localhost:8080/boards/1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "fixed title"
+}
+
+### deleteBoard
+DELETE http://localhost:8080/boards/1
+Authorization: Bearer {{accessToken}}
+
+### inviteBoard
+POST http://localhost:8080/boards/2/invite
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+
+

@@ -1,0 +1,79 @@
+### login
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "asdfghjkl1!"
+}
+
+> {%
+    client.global.set("accessToken", response.body.data.accessToken)
+    client.global.set("refreshToken", response.body.data.refreshToken)
+%}
+
+### card 생성
+POST localhost:8080/boards/1/sections/2/cards
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "title2",
+  "content": "content2-2",
+  "dueDate": "2024-07-12",
+  "status": "todo",
+  "writer": "test1"
+}
+
+> {%
+    client.global.set("cardId", response.body.data.id)
+%}
+
+### card 조회
+GET localhost:8080/boards/1/sections/1/cards?status=2
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### card 수정
+PUT localhost:8080/boards/1/sections/1/cards/{{cardId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "title": "titl2e1",
+  "content": "conten3t",
+  "dueDate": "2024-07-12",
+  "status": "todo",
+  "writer": "test1"
+}
+
+### card 정렬 수정
+PUT localhost:8080/boards/1/sections/1/cards
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "cards": [
+    {
+      "id": 1,
+      "sort": 1
+    },{
+      "id": 11,
+      "sort": 2
+    },{
+      "id": 15,
+      "sort": 3
+    },{
+      "id": 13,
+      "sort": 5
+    },{
+      "id": 14,
+      "sort": 4
+    }
+  ]
+}
+
+### card 삭제
+DELETE localhost:8080/boards/1/sections/1/cards/{{cardId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
