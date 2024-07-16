@@ -52,12 +52,11 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
         Pageable pageable = PageRequest.of(page-1, size);
 
-        return new PageImpl<>(boards, pageable, (Long) queryCount.fetchOne());
+        return new PageImpl<>(boards, pageable, queryCount.fetchOne());
     }
 
     /**
-     * board 조회 시 fetch join을 활용하여 페이지네이션
-     * offset을 사용한 페이지네이션 - 실패 => fetch join에는 limit 적용이 안된다.
+     * board 조회 시 section, card 분리해서 조회
      */
     public BoardDto getFetchJoinBoard(Long id, Pageable pageable) {
         QBoard qboard = QBoard.board;
@@ -71,6 +70,7 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
                 .fetchOne();
 
         Page<BoardDto.SectionDto> sections = selectSections(board.getId(), qsection, pageable);
+        // 카드 조회시에는 나온 section의 id 값을 조회한다.
         List<Long> sectionIds = sections.getContent().stream().map(BoardDto.SectionDto::getId).toList();
         Page<BoardDto.CardDto> cards = selectCards(sectionIds, qcard, pageable);
 
@@ -99,11 +99,6 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
     // section select 조회
     private Page<BoardDto.SectionDto> selectSections(Long boardId, QSection section, Pageable pageable) {
-//        List<Section> sections = jpaQueryFactory.selectFrom(section)
-//                .where(section.board.id.eq(boardId))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
 
         List<BoardDto.SectionDto> sections = jpaQueryFactory.select(
                         Projections.constructor(BoardDto.SectionDto.class,
@@ -122,25 +117,20 @@ public class BoardCustomRepositoryImpl implements BoardCustomRepository {
 
     // section select 조회
     private Page<BoardDto.CardDto> selectCards(List<Long> sectionIds, QCard card, Pageable pageable) {
-//        List<Card> cards = jpaQueryFactory.selectFrom(card)
-//                .where(card.section.id.in(sectionIds))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
 
         List<BoardDto.CardDto> cards = jpaQueryFactory.select(
-                Projections.constructor(BoardDto.CardDto.class,
-                        card.id,
-                        card.section.id,
-                        card.title,
-                        card.content,
-                        card.sort,
-                        card.dueDate,
-                        card.status,
-                        card.writer,
-                        card.createdAt,
-                        card.modifiedAt
-                )
+                    Projections.constructor(BoardDto.CardDto.class,
+                            card.id,
+                            card.section.id,
+                            card.title,
+                            card.content,
+                            card.sort,
+                            card.dueDate,
+                            card.status,
+                            card.writer,
+                            card.createdAt,
+                            card.modifiedAt
+                    )
                 )
                 .from(card)
                 .where(card.section.id.in(sectionIds))

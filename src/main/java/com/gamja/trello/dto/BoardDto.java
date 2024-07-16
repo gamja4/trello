@@ -18,13 +18,13 @@ public class BoardDto {
     private Long id;
     private String title;
     private Page<SectionDto> sections;
+    private PageDto cardPage;
 
     public BoardDto(Board board, Page<SectionDto> sections, Page<CardDto> cards) {
         this.id = board.getId();
         this.title = board.getTitle();
-
-        // sections 리스트 초기화
         this.sections = sections;
+        this.cardPage = new PageDto(cards.getTotalPages(), cards.hasNext(), cards.isLast());
 
         // 각 카드를 해당 섹션에 추가
         for (CardDto card : cards) {
@@ -48,10 +48,6 @@ public class BoardDto {
             this.title = title;
         }
 
-        public Long getId() {
-            return id;
-        }
-
         public void addCard(CardDto card) {
             this.cards.add(card);
         }
@@ -70,18 +66,13 @@ public class BoardDto {
         private String writer;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+    }
 
-        public CardDto(Card card) {
-            this.id = card.getId();
-            this.sectionId = card.getSection().getId();
-            this.title = card.getTitle();
-            this.content = card.getContent();
-            this.sort = card.getSort();
-            this.dueDate = card.getDueDate();
-            this.status = card.getStatus();
-            this.writer = card.getWriter();
-            this.createdAt = card.getCreatedAt();
-            this.modifiedAt = card.getModifiedAt();
-        }
+    @Getter
+    @AllArgsConstructor
+    public static class PageDto {
+        private int totalPages;
+        private boolean hasNext;
+        private boolean isLast;
     }
 }

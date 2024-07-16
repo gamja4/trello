@@ -96,7 +96,7 @@ class BatchRepositoryTest {
             System.out.println("현재 id: " + tableId);
 
             int count = 10; // jdbc 기본 커넥션이 10
-            int size = 1000;
+            int size = 100;
 
             Flux.range(0, count)
                     .parallel()

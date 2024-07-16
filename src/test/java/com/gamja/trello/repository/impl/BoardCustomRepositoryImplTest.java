@@ -46,11 +46,7 @@ class BoardCustomRepositoryImplTest {
 
         System.out.println(board.getContent().get(0).getId());
         // then
-//        board.get(0).getSections()
-//                .stream()
-//                .iterator()
-//                .next()
-//                .getCards().forEach(card -> System.out.println(card.getId()));
+        // fetch join은 limit 적용이 되지 않는다. -> oom 발생
     }
 
     @DisplayName("쿼리 분할")
@@ -58,7 +54,7 @@ class BoardCustomRepositoryImplTest {
     void test2() {
         // given
         Long boardId = 1L;
-        int page = 2;
+        int page = 1;
         int size = 10;
 
         Pageable pageable = PageRequest.of(page-1, size);
@@ -68,22 +64,5 @@ class BoardCustomRepositoryImplTest {
 
         // then
         System.out.println(board.getId());
-
-
-        /*
-        page => section, card 2
-        id 1 section => card 50만건
-        => id 11 ~ card X
-        =>
-
-        page를 따로 가져가야하는데 boardApi, => page? => 프론트
-        => api 를 나눈다? =>
-        [board] => count
-        section => page
-        card => page
-
-        검증? sectionId
-
-         */
     }
 }
